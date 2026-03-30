@@ -25,7 +25,7 @@ Main planned components:
 """
 
 
-def evaluate_file(input_file_path: str) -> list[dict]:
+def evaluate_file(input_file_path: str):
     """
     Reads mathematical expressions from the given input file and returns
     a list of results.

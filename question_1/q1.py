@@ -12,28 +12,37 @@ try:
 except ValueError:
      print('Enter a valid number')
 
-def check_letters(letter, shift1, shift2):
+def check_letters(letter, shift1, shift2, encrypt):
     lower_check = False
     first_check = True
+    final_shift = 0
     if letter.islower():
         lower_check = True
     elif letter.isupper():
         lower_check = False
     temp_l = letter.lower()
+    final_shift = 0
     first = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
     second = ['n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     for i in range(len(first)):
         if temp_l == first[i]:
             first_check = True
-            print(str(i), letter)
+            if encrypt == True and lower_check == True:
+                print(str(i), letter)
+                final_shift = shift1 * shift2
         elif temp_l == second[i]:
-            print(str(i), letter)
-        
+            first_check = False
+            if encrypt == True and lower_check == True:
+                final_shift = shift1 * shift2
+                print(str(i), letter)
+    return final_shift
 
 def encrypt_file(data, no_one, no_two):
     for n in data:
+        new_value = ' '
         if n != " ":
-            check_letters(n, no_one, no_two)
+            new_value = check_letters(n, no_one, no_two, True)
+            print("Shift Value",  str(new_value))
     return
 
 encrypt_file(content, shift1, shift2)

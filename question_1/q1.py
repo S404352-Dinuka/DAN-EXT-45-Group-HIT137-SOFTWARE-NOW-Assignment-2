@@ -22,19 +22,21 @@ def check_letters(letter, shift1, shift2, encrypt):
         lower_check = False
     temp_l = letter.lower()
     final_shift = 0
-    first = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
-    second = ['n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    first = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     for i in range(len(first)):
         if temp_l == first[i]:
-            first_check = True
-            if encrypt == True and lower_check == True:
-                print(str(i), letter)
-                final_shift = shift1 * shift2
-        elif temp_l == second[i]:
-            first_check = False
-            if encrypt == True and lower_check == True:
-                final_shift = shift1 * shift2
-                print(str(i), letter)
+            break
+        elif first[i] == 'n':
+            first_check = False 
+            
+    if first_check and lower_check:
+        final_shift = shift1 * shift2
+    elif first_check and not lower_check:
+        final_shift = -(shift1)
+    elif not first_check and lower_check:
+        final_shift = shift1 + shift2
+    elif not first_check and not lower_check:
+        final_shift = shift2 ^ 2
     return final_shift
 
 def encrypt_file(data, no_one, no_two):

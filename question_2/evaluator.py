@@ -34,13 +34,41 @@ def convert_expression_to_tokens(expression):
     output.append(("END", None))
     return output
 
+'''
+Implemented this method to parse numbers parentheses and unary minus
+'''
 def parse_sub_expression(tokens, index):
-    return "ERROR", index
+    if index < len(tokens):
+        token_type, token_value = tokens[index]
+        # Check if token type is Number
+        if token_type == "NUM":
+            return token_value, index + 1
+        # Check if token type is Unary negation
+        elif token_type == "OP" and token_value == "-":
+            node, next_index = parse_sub_expression(tokens, index + 1)
+            if node == "ERROR":
+                return "ERROR", next_index
+            else:
+                return ("neg", node), next_index
+        # Check if token type is Parentheses
+        elif token_type == "LPAREN":
+            node, next_index = parse_expression(tokens, index + 1)
+            if node == "ERROR":
+                return "ERROR", next_index
+            if next_index >= len(tokens) or tokens[next_index][0] != "RPAREN":
+                return "ERROR", next_index
+            return node, next_index + 1
+        else:
+            return "ERROR", index
+    else:
+        return "ERROR", index
 
 def parse_precedence_expression(tokens, index):
+    print(parse_sub_expression(tokens, index))
     return "ERROR", index
 
 def parse_expression(tokens, index):
+    print(parse_precedence_expression(tokens, index))
     return "ERROR", index
 
 '''
@@ -57,6 +85,13 @@ def evaluate_file(input_path: str) -> list[dict]:
             for line in lines:
                 expression0 = line.strip()
                 tokens = convert_expression_to_tokens(expression0)
+                print(tokens)
+                if tokens == "ERROR":
+                    tree = "ERROR"
+                    result = "ERROR"
+                else:
+                    tree_node, next_index = parse_expression(tokens, 0)
+                    print(tree_node, next_index)
     except FileNotFoundError as e:
         print(e)
     return results

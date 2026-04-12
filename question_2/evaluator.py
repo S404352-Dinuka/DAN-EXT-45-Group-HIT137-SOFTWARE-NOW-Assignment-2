@@ -79,9 +79,21 @@ def parse_precedence_expression(tokens, index):
     else:
         return "ERROR", next_index
 
+'''
+Implemented this method to parse + and - operations
+'''
 def parse_expression(tokens, index):
-    print(parse_precedence_expression(tokens, index))
-    return "ERROR", index
+    expression, next_index = parse_precedence_expression(tokens, index)
+    if expression != "ERROR":
+        while next_index < len(tokens)  and tokens[next_index][1] in ("+", "-") and tokens[next_index][0] == "OP":
+            operator = tokens[next_index][1]
+            right_expression, next_index = parse_precedence_expression(tokens, next_index + 1)
+            if right_expression == "ERROR":
+                return "ERROR", next_index
+            expression = (operator, expression, right_expression)
+        return expression, next_index
+    else:
+        return "ERROR", next_index
 
 '''
 Implemented this method to read expressions from the input file and writes results to out put file

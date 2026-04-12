@@ -63,9 +63,21 @@ def parse_sub_expression(tokens, index):
     else:
         return "ERROR", index
 
+'''
+Implemented this method to parse * and / operations
+'''
 def parse_precedence_expression(tokens, index):
-    print(parse_sub_expression(tokens, index))
-    return "ERROR", index
+    expression, next_index = parse_sub_expression(tokens, index)
+    if expression != "ERROR":
+        while next_index < len(tokens) and tokens[next_index][0] == "OP" and tokens[next_index][1] in ("*", "/"):
+            operator = tokens[next_index][1]
+            right_expression, next_index = parse_sub_expression(tokens, next_index + 1)
+            if right_expression == "ERROR":
+                return "ERROR", next_index
+            expression = (operator, expression, right_expression)
+        return expression, next_index
+    else:
+        return "ERROR", next_index
 
 def parse_expression(tokens, index):
     print(parse_precedence_expression(tokens, index))

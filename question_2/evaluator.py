@@ -105,6 +105,13 @@ def parse_expression(tokens, index):
         return "ERROR", next_index
 
 '''
+Implemented this method to converts the expression tree into the string format
+'''
+def convert_tree_to_string(expression_tree):
+    # TODO:: This method needs to be implemented to converts the expression tree into the string format
+    return "ERROR"
+
+'''
 Implemented this method to generate numerical result of the expression. 
 Evaluation is done in recursive way.
 If the evaluation failed "ERROR" will be returned.
@@ -166,7 +173,7 @@ def evaluate_file(input_path: str) -> list[dict]:
                         tree = "ERROR"
                         result = "ERROR"
                     else:
-                        tree = "ERROR"
+                        tree = convert_tree_to_string(tree_node)
                         result = generate_result(tree_node)
                         # tree ->  (+ 3 5)
                         # result ->  8.0

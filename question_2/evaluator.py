@@ -96,6 +96,39 @@ def parse_expression(tokens, index):
         return "ERROR", next_index
 
 '''
+Implemented this method to generate numerical result of the expression. 
+Evaluation is done in recursive way.
+If the evaluation failed "ERROR" will be returned.
+'''
+def generate_result(tree_expression):
+    if tree_expression == "ERROR":
+        return "ERROR"
+    elif isinstance(tree_expression, int):
+        return float(tree_expression)
+    elif tree_expression[0] == "neg":
+        val = generate_result(tree_expression[1])
+        if val == "ERROR":
+            return "ERROR"
+        else:
+            return -val
+    else:
+        left_value = generate_result(tree_expression[1])
+        right_value = generate_result(tree_expression[2])
+        if left_value != "ERROR" and right_value != "ERROR":
+            if tree_expression[0] == "+":
+                return left_value + right_value
+            elif tree_expression[0] == "-":
+                return left_value - right_value
+            elif tree_expression[0] == "*":
+                return left_value * right_value
+            elif tree_expression[0] == "/" and right_value != 0:
+                return left_value / right_value
+            else:
+                return "ERROR"
+        else:
+            return "ERROR"
+
+'''
 Implemented this method to read expressions from the input file and writes results to out put file
 This method return a dictionary list
 '''
@@ -115,7 +148,12 @@ def evaluate_file(input_path: str) -> list[dict]:
                     result = "ERROR"
                 else:
                     tree_node, next_index = parse_expression(tokens, 0)
-                    print(tree_node, next_index)
+                    if tree_node == "ERROR" or next_index >= len(tokens) or tokens[next_index][0] != "END":
+                        tree = "ERROR"
+                        result = "ERROR"
+                    else:
+                        result = generate_result(tree_node)
+                        print(result)
     except FileNotFoundError as e:
         print(e)
     return results

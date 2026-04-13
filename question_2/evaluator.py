@@ -145,6 +145,13 @@ def generate_result(tree_expression):
             return "ERROR"
 
 '''
+Implemented this method to formats the result for writing into output file
+'''
+def format_result_for_output(input_val):
+    # TODO :: This method needs to be implemented to formats the result for writing into output file
+    return 'ERROR'
+
+'''
 Implemented this method to read expressions from the input file and writes results to out put file
 This method return a dictionary list
 '''

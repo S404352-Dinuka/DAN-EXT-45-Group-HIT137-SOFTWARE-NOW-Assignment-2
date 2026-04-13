@@ -37,14 +37,36 @@ def check_letters(letter, shift1, shift2, encrypt):
         final_shift = shift1 + shift2
     elif not first_check and not lower_check:
         final_shift = shift2 ^ 2
-    return final_shift
+    final_value = check_shift(final_shift, first, encrypt, lower_check, i)
+    return final_value
+
+def check_shift(shift, first_list, encrypt_check, lower_check, index):
+    max_index = len(first_list)
+    if encrypt_check == False:
+        shift = -(shift - index)
+        print("shift", str(shift), "Index", str(index), "Value at Index: " , str(first_list[index]))
+    else:
+        shift = shift + index
+    if shift > max_index:
+        shift = shift - max_index
+    value = first_list[shift]
+    if lower_check == False:
+        value = first_list[shift].upper()
+    return value
 
 def encrypt_file(data, no_one, no_two):
+    shift_list = []
+    movement = False
+    count = 0
     for n in data:
         new_value = ' '
         if n != " ":
             new_value = check_letters(n, no_one, no_two, True)
-            print("Shift Value",  str(new_value))
-    return
+            print(new_value)
+        shift_list.insert(count, new_value)
+        count += 1
+    encrypted_text = "".join(shift_list)
+    print(encrypted_text)
+    return encrypted_text
 
 encrypt_file(content, shift1, shift2)

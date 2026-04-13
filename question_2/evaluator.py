@@ -2,6 +2,7 @@
 HIT137 Assignment 2 - Question 2
 Expression Evaluator
 """
+
 '''
 Implemented this method to converts the input expression string into a list of tokens
 '''
@@ -33,6 +34,14 @@ def convert_expression_to_tokens(expression):
         current_idx += 1
     output.append(("END", None))
     return output
+
+'''
+This method needs to be Implemented to Converts the list of tokens into the string.
+Tokens list is input and output is formated string
+'''
+def convert_tokens_to_string(tokens):
+    # TODO:: This method needs to be Implemented to Converts the list of tokens into the string
+    return "ERROR"
 
 '''
 Implemented this method to parse numbers parentheses and unary minus
@@ -142,25 +151,43 @@ def evaluate_file(input_path: str) -> list[dict]:
             for line in lines:
                 expression0 = line.strip()
                 tokens = convert_expression_to_tokens(expression0)
-                print(tokens)
+                token_string = convert_tokens_to_string(tokens)
+                # expression -> 3 + 5
+                # tokens -> [('NUM', 3), ('OP', '+'), ('NUM', 5), ('END', None)]
+                # token_string -> [NUM:3][OP:+][NUM:5][END]
                 if tokens == "ERROR":
                     tree = "ERROR"
                     result = "ERROR"
                 else:
                     tree_node, next_index = parse_expression(tokens, 0)
+                    # tree_node -> ('+', 3, 5)
+                    # next_index -> 3
                     if tree_node == "ERROR" or next_index >= len(tokens) or tokens[next_index][0] != "END":
                         tree = "ERROR"
                         result = "ERROR"
                     else:
+                        tree = "ERROR"
                         result = generate_result(tree_node)
-                        print(result)
+                        # tree ->  (+ 3 5)
+                        # result ->  8.0
+                result_dict = {
+                    "input": expression0,
+                    "tree": tree,
+                    "tokens": token_string,
+                    "result": "ERROR" if result == "ERROR" else float(result)
+                }
+                results.append(result_dict)
     except FileNotFoundError as e:
         print(e)
     return results
 
-
 if __name__ == "__main__":
     # This block runs only when this file is executed directly.
     # It is useful for simple local testing during development.
+
+    '''
+    Calling evaluate_file method with path to the input file
+    '''
     results = evaluate_file("input.txt")
+
     print("Check the output.txt")

@@ -36,7 +36,7 @@ def convert_expression_to_tokens(expression):
     return output
 
 '''
-This method needs to be Implemented to Converts the list of tokens into the string.
+This method needs to be implemented to converts the list of tokens into the string.
 Tokens list is input and output is formated string
 '''
 def convert_tokens_to_string(tokens):
@@ -105,7 +105,7 @@ def parse_expression(tokens, index):
         return "ERROR", next_index
 
 '''
-Implemented this method to converts the expression tree into the string format
+This method needs to be implemented to converts the expression tree into the string format
 '''
 def convert_tree_to_string(expression_tree):
     # TODO:: This method needs to be implemented to converts the expression tree into the string format
@@ -145,7 +145,7 @@ def generate_result(tree_expression):
             return "ERROR"
 
 '''
-Implemented this method to formats the result for writing into output file
+This method needs to be implemented to formats the result for writing into output file
 '''
 def format_result_for_output(input_val):
     # TODO :: This method needs to be implemented to formats the result for writing into output file
@@ -191,6 +191,10 @@ def evaluate_file(input_path: str) -> list[dict]:
                     "result": "ERROR" if result == "ERROR" else float(result)
                 }
                 results.append(result_dict)
+                out.write(f"Input: {expression0}\n")
+                out.write(f"Tree: {tree}\n")
+                out.write(f"Tokens: {token_string}\n")
+                out.write(f"Result: {format_result_for_output(result)}\n\n")
     except FileNotFoundError as e:
         print(e)
     return results

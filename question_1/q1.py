@@ -28,27 +28,25 @@ def check_letters(letter, shift1, shift2, encrypt):
             break
         elif first[i] == 'n':
             first_check = False 
-            
+
     if first_check and lower_check:
         final_shift = shift1 * shift2
     elif first_check and not lower_check:
         final_shift = -(shift1)
     elif not first_check and lower_check:
-        final_shift = shift1 + shift2
+        final_shift = - (shift1 + shift2)
     elif not first_check and not lower_check:
-        final_shift = shift2 ^ 2
+        final_shift = shift2 ** 2
     final_value = check_shift(final_shift, first, encrypt, lower_check, i)
     return final_value
 
 def check_shift(shift, first_list, encrypt_check, lower_check, index):
-    max_index = len(first_list)
     if encrypt_check == False:
         shift = -(shift - index)
         print("shift", str(shift), "Index", str(index), "Value at Index: " , str(first_list[index]))
     else:
         shift = shift + index
-    if shift > max_index:
-        shift = shift - max_index
+    shift = shift % 26
     value = first_list[shift]
     if lower_check == False:
         value = first_list[shift].upper()
@@ -56,7 +54,6 @@ def check_shift(shift, first_list, encrypt_check, lower_check, index):
 
 def encrypt_file(data, no_one, no_two):
     shift_list = []
-    movement = False
     count = 0
     for n in data:
         new_value = ' '
@@ -69,4 +66,4 @@ def encrypt_file(data, no_one, no_two):
     print(encrypted_text)
     return encrypted_text
 
-encrypt_file(content, shift1, shift2)
+new_txt = encrypt_file(content, shift1, shift2)

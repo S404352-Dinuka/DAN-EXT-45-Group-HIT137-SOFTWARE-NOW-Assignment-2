@@ -1,10 +1,12 @@
+#Try catch block to check if the file is present
 try: 
     with open ('raw_text.txt', 'r') as file:
         content = file.read()
         print(content)
 except FileNotFoundError:
         print('File is not Found!')
-
+        
+#Rry catch block to see if user entered values are valid
 try:
     shift1 = int(input("Enter Shift No 1: "))
     shift2 = int(input("Enter Shift No 2:"))
@@ -12,7 +14,8 @@ try:
 except ValueError:
      print('Enter a valid number')
 
-def check_letters(letter, shift1, shift2, encrypt):
+#Check letters method checks if the letter is lowercase, if the letter is present in the first section of the alphabet and calculates the correct shift and return the shifted value from the list with the correct style (Upper or Lower)
+def check_letters(letter, shift1, shift2, keys):
     lower_check = False
     first_check = True
     final_shift = 0
@@ -21,14 +24,12 @@ def check_letters(letter, shift1, shift2, encrypt):
     elif letter.isupper():
         lower_check = False
     temp_l = letter.lower()
-    final_shift = 0
-    first = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-    for i in range(len(first)):
-        if temp_l == first[i]:
+    first_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    for i in range(len(first_list)):
+        if temp_l == first_list[i]:
             break
-        elif first[i] == 'n':
+        elif first_list[i] == 'm':
             first_check = False 
-
     if first_check and lower_check:
         final_shift = shift1 * shift2
     elif first_check and not lower_check:
@@ -37,33 +38,31 @@ def check_letters(letter, shift1, shift2, encrypt):
         final_shift = - (shift1 + shift2)
     elif not first_check and not lower_check:
         final_shift = shift2 ** 2
-    final_value = check_shift(final_shift, first, encrypt, lower_check, i)
-    return final_value
-
-def check_shift(shift, first_list, encrypt_check, lower_check, index):
-    if encrypt_check == False:
-        shift = -(shift - index)
-        print("shift", str(shift), "Index", str(index), "Value at Index: " , str(first_list[index]))
-    else:
-        shift = shift + index
-    shift = shift % 26
-    value = first_list[shift]
+    final_shift = (final_shift + i) % 26
+    value = first_list[final_shift]
     if lower_check == False:
-        value = first_list[shift].upper()
+        value = first_list[final_shift].upper()
+    #Stores the key value pairs of the intial value and shifted value in a dictionary.
+    keys[letter] = value
     return value
 
-def encrypt_file(data, no_one, no_two):
+#Encrypt function takes user shifts and passes it to check_letters method to get the value, switched it with the shift value and stores it in a list.
+def encrypt_file(data, no_one, no_two, dict):
     shift_list = []
     count = 0
     for n in data:
-        new_value = ' '
-        if n != " ":
-            new_value = check_letters(n, no_one, no_two, True)
+        new_value = n
+        if n.isalpha():
+            new_value = check_letters(n, no_one, no_two, dict)
             print(new_value)
         shift_list.insert(count, new_value)
         count += 1
+    #Joins the final list and creates a new file and stores it in the file.
     encrypted_text = "".join(shift_list)
-    print(encrypted_text)
+    with open('encrypted_file.txt', 'w', encoding='utf-8') as file:
+        file.write(encrypted_text)
     return encrypted_text
 
-new_txt = encrypt_file(content, shift1, shift2)
+encrypt_keys = {}
+new_txt = encrypt_file(content, shift1, shift2, encrypt_keys)
+print(encrypt_keys)

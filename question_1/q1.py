@@ -65,7 +65,40 @@ def encrypt_file(data, no_one, no_two, dict):
         file.write(encrypted_text)
     return encrypted_text
     
-
+#Decrypts the encrypted file by using a dictionary to check the location of the alphabet and get the original value.
+def decrypt_file(keys):
+    try: 
+        #Encryptd file is opened and read the content here
+        with open ('encrypted_text.txt', 'r') as file:
+            data = file.read()
+            print(data)
+    except FileNotFoundError:
+        print('File is not Found!') # If the file is not found, function is stopping. 
+    shift_list = []  # List to store decrypted characters
+    count = 0 # Keep a count for tracking the positions
+   # Through each character in the encrypted data one by one (Looping)
+    for n in data:
+        new_value = n # The encrypted data will keep the value by default
+        # Check only alphabetic characters
+        if n.isalpha():
+           
+            if keys['first_check'][count]:
+                for key, val in keys['first'].items():
+                    if val == n:
+                        new_value = key
+            
+            else:
+                for key, val in keys['second'].items():
+                    if val == n:
+                        new_value = key
+                print(new_value)
+        shift_list.insert(count, new_value)
+        count += 1
+    # Join all characters into one string
+    decrypted_text = "".join(shift_list)
+    # The decrypted text write here into a new file
+    with open('decrypted_text.txt', 'w', encoding='utf-8') as file:
+        file.write(decrypted_text)
 
 encrypt_keys = {
     'first': {},
@@ -74,3 +107,4 @@ encrypt_keys = {
 }
 new_txt = encrypt_file(content, shift1, shift2, encrypt_keys)
 print(encrypt_keys)
+decrypt_file(encrypt_keys)

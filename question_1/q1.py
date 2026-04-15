@@ -5,17 +5,15 @@ try:
         print(content)
 except FileNotFoundError:
         print('File is not Found!')
-        
-#Rry catch block to see if user entered values are valid
+#Try catch block to see if user entered values are valid 
 try:
     shift1 = int(input("Enter Shift No 1: "))
     shift2 = int(input("Enter Shift No 2:"))
     print(shift1, shift2)
 except ValueError:
      print('Enter a valid number')
-
 #Check letters method checks if the letter is lowercase, if the letter is present in the first section of the alphabet and calculates the correct shift and return the shifted value from the list with the correct style (Upper or Lower)
-def check_letters(letter, shift1, shift2, keys):
+def check_letters(letter, shift1, shift2, keys, index):
     lower_check = False
     first_check = True
     final_shift = 0
@@ -28,7 +26,7 @@ def check_letters(letter, shift1, shift2, keys):
     for i in range(len(first_list)):
         if temp_l == first_list[i]:
             break
-        elif first_list[i] == 'm':
+        elif first_list[i] == 'n':
             first_check = False 
     if first_check and lower_check:
         final_shift = shift1 * shift2
@@ -42,10 +40,14 @@ def check_letters(letter, shift1, shift2, keys):
     value = first_list[final_shift]
     if lower_check == False:
         value = first_list[final_shift].upper()
-    #Stores the key value pairs of the intial value and shifted value in a dictionary.
-    keys[letter] = value
+    #Stores the key value pairs of the intial value and shifted value in a dictionary depending on their position in the alphabet.
+    keys['first_check'][index] = first_check
+    if first_check == True:
+        keys['first'][letter] = value
+    else:
+        keys['second'][letter] = value 
     return value
-
+        
 #Encrypt function takes user shifts and passes it to check_letters method to get the value, switched it with the shift value and stores it in a list.
 def encrypt_file(data, no_one, no_two, dict):
     shift_list = []
@@ -53,7 +55,7 @@ def encrypt_file(data, no_one, no_two, dict):
     for n in data:
         new_value = n
         if n.isalpha():
-            new_value = check_letters(n, no_one, no_two, dict)
+            new_value = check_letters(n, no_one, no_two, dict, count)
             print(new_value)
         shift_list.insert(count, new_value)
         count += 1
@@ -63,6 +65,10 @@ def encrypt_file(data, no_one, no_two, dict):
         file.write(encrypted_text)
     return encrypted_text
 
-encrypt_keys = {}
+encrypt_keys = {
+    'first': {},
+    'second': {},
+    'first_check': {}
+}
 new_txt = encrypt_file(content, shift1, shift2, encrypt_keys)
 print(encrypt_keys)

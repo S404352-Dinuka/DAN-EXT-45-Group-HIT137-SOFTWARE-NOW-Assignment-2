@@ -36,12 +36,21 @@ def convert_expression_to_tokens(expression):
     return output
 
 '''
-This method needs to be implemented to converts the list of tokens into the string.
+Implemented this method to Converts the list of tokens into the string.
 Tokens list is input and output is formated string
 '''
 def convert_tokens_to_string(tokens):
-    # TODO:: This method needs to be Implemented to Converts the list of tokens into the string
-    return "ERROR"
+    if tokens != "ERROR":
+        parts_list = []
+        for token_type, token_value in tokens:
+            if token_type == "END":
+                str_to_append = "[END]"
+            else:
+                str_to_append = f"[{token_type}:{token_value}]"
+            parts_list.append(str_to_append)
+        return " ".join(parts_list)
+    else:
+        return "ERROR"
 
 '''
 Implemented this method to parse numbers parentheses and unary minus

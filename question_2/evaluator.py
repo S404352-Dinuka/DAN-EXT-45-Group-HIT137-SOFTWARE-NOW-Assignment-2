@@ -160,11 +160,16 @@ def generate_result(tree_expression):
             return "ERROR"
 
 '''
-This method needs to be implemented to formats the result for writing into output file
+Implemented this method to formats the result for writing into output file
 '''
 def format_result_for_output(input_val):
-    # TODO :: This method needs to be implemented to formats the result for writing into output file
-    return 'ERROR'
+    if input_val == "ERROR":
+        output_val = "ERROR"
+    elif input_val.is_integer():
+        output_val = str(int(input_val))
+    else:
+        output_val = str(round(input_val, 4))
+    return output_val
 
 '''
 Implemented this method to read expressions from the input file and writes results to out put file

@@ -100,22 +100,23 @@ def decrypt_file(keys):
     with open('decrypted_text.txt', 'w', encoding='utf-8') as file:
         file.write(decrypted_text)
 
+#Verfication reads the two files and compares their content
 def verfication():
     try: 
-        
+        # Read the original raw_text here
         with open ('raw_text.txt', 'r') as file:
             original_content = file.read()
             print(original_content)
     except FileNotFoundError:
         print('File is not Found!')
     try: 
-        
+        # Read the decrypted_text here
         with open ('decrypted_text.txt', 'r') as file:
             decrypted_content = file.read()
             print(decrypted_content)
     except FileNotFoundError:
         print('File is not Found!')
-
+    # Compare the both raw_text and decrypted_text files contents
     if original_content == decrypted_content:
         print("Verification Successfull")
     else:

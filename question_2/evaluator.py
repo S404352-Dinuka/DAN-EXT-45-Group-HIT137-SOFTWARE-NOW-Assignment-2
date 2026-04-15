@@ -114,11 +114,17 @@ def parse_expression(tokens, index):
         return "ERROR", next_index
 
 '''
-This method needs to be implemented to converts the expression tree into the string format
+Implemented this method to converts the expression tree into the string format
 '''
 def convert_tree_to_string(expression_tree):
-    # TODO:: This method needs to be implemented to converts the expression tree into the string format
-    return "ERROR"
+    if expression_tree == "ERROR":
+        return "ERROR"
+    elif isinstance(expression_tree, int):
+        return str(expression_tree)
+    elif expression_tree[0] == "neg":
+        return f"(neg {convert_tree_to_string(expression_tree[1])})"
+    else:
+        return f"({expression_tree[0]} {convert_tree_to_string(expression_tree[1])} {convert_tree_to_string(expression_tree[2])})"
 
 '''
 Implemented this method to generate numerical result of the expression. 

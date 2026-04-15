@@ -36,12 +36,21 @@ def convert_expression_to_tokens(expression):
     return output
 
 '''
-This method needs to be implemented to converts the list of tokens into the string.
+Implemented this method to Converts the list of tokens into the string.
 Tokens list is input and output is formated string
 '''
 def convert_tokens_to_string(tokens):
-    # TODO:: This method needs to be Implemented to Converts the list of tokens into the string
-    return "ERROR"
+    if tokens != "ERROR":
+        parts_list = []
+        for token_type, token_value in tokens:
+            if token_type == "END":
+                str_to_append = "[END]"
+            else:
+                str_to_append = f"[{token_type}:{token_value}]"
+            parts_list.append(str_to_append)
+        return " ".join(parts_list)
+    else:
+        return "ERROR"
 
 '''
 Implemented this method to parse numbers parentheses and unary minus
@@ -105,11 +114,17 @@ def parse_expression(tokens, index):
         return "ERROR", next_index
 
 '''
-This method needs to be implemented to converts the expression tree into the string format
+Implemented this method to converts the expression tree into the string format
 '''
 def convert_tree_to_string(expression_tree):
-    # TODO:: This method needs to be implemented to converts the expression tree into the string format
-    return "ERROR"
+    if expression_tree == "ERROR":
+        return "ERROR"
+    elif isinstance(expression_tree, int):
+        return str(expression_tree)
+    elif expression_tree[0] == "neg":
+        return f"(neg {convert_tree_to_string(expression_tree[1])})"
+    else:
+        return f"({expression_tree[0]} {convert_tree_to_string(expression_tree[1])} {convert_tree_to_string(expression_tree[2])})"
 
 '''
 Implemented this method to generate numerical result of the expression. 
@@ -145,11 +160,16 @@ def generate_result(tree_expression):
             return "ERROR"
 
 '''
-This method needs to be implemented to formats the result for writing into output file
+Implemented this method to formats the result for writing into output file
 '''
 def format_result_for_output(input_val):
-    # TODO :: This method needs to be implemented to formats the result for writing into output file
-    return 'ERROR'
+    if input_val == "ERROR":
+        output_val = "ERROR"
+    elif input_val.is_integer():
+        output_val = str(int(input_val))
+    else:
+        output_val = str(round(input_val, 4))
+    return output_val
 
 '''
 Implemented this method to read expressions from the input file and writes results to out put file

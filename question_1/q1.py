@@ -96,9 +96,30 @@ def decrypt_file(keys):
         count += 1
     # Join all characters into one string
     decrypted_text = "".join(shift_list)
-    # The decrypted text write here into a new file
+    
     with open('decrypted_text.txt', 'w', encoding='utf-8') as file:
         file.write(decrypted_text)
+
+def verfication():
+    try: 
+        
+        with open ('raw_text.txt', 'r') as file:
+            original_content = file.read()
+            print(original_content)
+    except FileNotFoundError:
+        print('File is not Found!')
+    try: 
+        
+        with open ('decrypted_text.txt', 'r') as file:
+            decrypted_content = file.read()
+            print(decrypted_content)
+    except FileNotFoundError:
+        print('File is not Found!')
+
+    if original_content == decrypted_content:
+        print("Verification Successfull")
+    else:
+        print("Verification Unsuccussful")
 
 encrypt_keys = {
     'first': {},
@@ -108,3 +129,4 @@ encrypt_keys = {
 new_txt = encrypt_file(content, shift1, shift2, encrypt_keys)
 print(encrypt_keys)
 decrypt_file(encrypt_keys)
+verfication()

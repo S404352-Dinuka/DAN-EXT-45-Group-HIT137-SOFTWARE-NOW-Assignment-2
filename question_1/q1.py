@@ -2,14 +2,12 @@
 try: 
     with open ('raw_text.txt', 'r') as file:
         content = file.read()
-        print(content)
 except FileNotFoundError:
         print('File is not Found!')
 #Try catch block to see if user entered values are valid 
 try:
     shift1 = int(input("Enter Shift No 1: "))
     shift2 = int(input("Enter Shift No 2:"))
-    print(shift1, shift2)
 except ValueError:
      print('Enter a valid number')
 #Check letters method checks if the letter is lowercase, if the letter is present in the first section of the alphabet and calculates the correct shift and return the shifted value from the list with the correct style (Upper or Lower)
@@ -56,7 +54,6 @@ def encrypt_file(data, no_one, no_two, dict):
         new_value = n
         if n.isalpha():
             new_value = check_letters(n, no_one, no_two, dict, count)
-            print(new_value)
         shift_list.insert(count, new_value)
         count += 1
     #Joins the final list and creates a new file and stores it in the file.
@@ -70,7 +67,6 @@ def decrypt_file(keys):
     try: 
         with open ('encrypted_text.txt', 'r') as file:
             data = file.read()
-            print(data)
     except FileNotFoundError:
         print('File is not Found!')  
     shift_list = []  
@@ -88,7 +84,6 @@ def decrypt_file(keys):
                 for key, val in keys['second'].items():
                     if val == n:
                         new_value = key
-                print(new_value)
         shift_list.insert(count, new_value)
         count += 1
     decrypted_text = "".join(shift_list)
@@ -101,13 +96,11 @@ def verfication():
     try: 
         with open ('raw_text.txt', 'r') as file:
             original_content = file.read()
-            print(original_content)
     except FileNotFoundError:
         print('File is not Found!')
     try: 
         with open ('decrypted_text.txt', 'r') as file:
             decrypted_content = file.read()
-            print(decrypted_content)
     except FileNotFoundError:
         print('File is not Found!')
    
@@ -122,7 +115,6 @@ encrypt_keys = {
     'first_check': {}
 }
 new_txt = encrypt_file(content, shift1, shift2, encrypt_keys)
-print(encrypt_keys)
 
 decrypt_file(encrypt_keys)
 verfication()

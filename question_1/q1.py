@@ -61,9 +61,60 @@ def encrypt_file(data, no_one, no_two, dict):
         count += 1
     #Joins the final list and creates a new file and stores it in the file.
     encrypted_text = "".join(shift_list)
-    with open('encrypted_file.txt', 'w', encoding='utf-8') as file:
+    with open('encrypted_text.txt', 'w', encoding='utf-8') as file:
         file.write(encrypted_text)
     return encrypted_text
+    
+#Decrypts the encrypted file by using a dictionary to check the location of the alphabet and get the original value.
+def decrypt_file(keys):
+    try: 
+        with open ('encrypted_text.txt', 'r') as file:
+            data = file.read()
+            print(data)
+    except FileNotFoundError:
+        print('File is not Found!')  
+    shift_list = []  
+    count = 0 
+    for n in data:
+        new_value = n 
+        if n.isalpha():
+           
+            if keys['first_check'][count]:
+                for key, val in keys['first'].items():
+                    if val == n:
+                        new_value = key
+            
+            else:
+                for key, val in keys['second'].items():
+                    if val == n:
+                        new_value = key
+                print(new_value)
+        shift_list.insert(count, new_value)
+        count += 1
+    decrypted_text = "".join(shift_list)
+    
+    with open('decrypted_text.txt', 'w', encoding='utf-8') as file:
+        file.write(decrypted_text)
+
+#Verfication reads the two files and compares their content
+def verfication():
+    try: 
+        with open ('raw_text.txt', 'r') as file:
+            original_content = file.read()
+            print(original_content)
+    except FileNotFoundError:
+        print('File is not Found!')
+    try: 
+        with open ('decrypted_text.txt', 'r') as file:
+            decrypted_content = file.read()
+            print(decrypted_content)
+    except FileNotFoundError:
+        print('File is not Found!')
+   
+    if original_content == decrypted_content:
+        print("Verification Successfull")
+    else:
+        print("Verification Unsuccussful")
 
 encrypt_keys = {
     'first': {},
@@ -72,3 +123,6 @@ encrypt_keys = {
 }
 new_txt = encrypt_file(content, shift1, shift2, encrypt_keys)
 print(encrypt_keys)
+
+decrypt_file(encrypt_keys)
+verfication()

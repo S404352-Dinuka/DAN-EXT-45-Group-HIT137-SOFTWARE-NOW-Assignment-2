@@ -186,24 +186,17 @@ def evaluate_file(input_path: str) -> list[dict]:
                 expression0 = line.strip()
                 tokens = convert_expression_to_tokens(expression0)
                 token_string = convert_tokens_to_string(tokens)
-                # expression -> 3 + 5
-                # tokens -> [('NUM', 3), ('OP', '+'), ('NUM', 5), ('END', None)]
-                # token_string -> [NUM:3][OP:+][NUM:5][END]
                 if tokens == "ERROR":
                     tree = "ERROR"
                     result = "ERROR"
                 else:
                     tree_node, next_index = parse_expression(tokens, 0)
-                    # tree_node -> ('+', 3, 5)
-                    # next_index -> 3
                     if tree_node == "ERROR" or next_index >= len(tokens) or tokens[next_index][0] != "END":
                         tree = "ERROR"
                         result = "ERROR"
                     else:
                         tree = convert_tree_to_string(tree_node)
                         result = generate_result(tree_node)
-                        # tree ->  (+ 3 5)
-                        # result ->  8.0
                 result_dict = {
                     "input": expression0,
                     "tree": tree,
@@ -219,13 +212,9 @@ def evaluate_file(input_path: str) -> list[dict]:
         print(e)
     return results
 
-if __name__ == "__main__":
-    # This block runs only when this file is executed directly.
-    # It is useful for simple local testing during development.
 
-    '''
-    Calling evaluate_file method with path to the input file
-    '''
-    results = evaluate_file("input.txt")
-
-    print("Check the output.txt")
+'''
+Calling evaluate_file method with path to the input file
+'''
+results = evaluate_file("input.txt")
+print("Check the output.txt")

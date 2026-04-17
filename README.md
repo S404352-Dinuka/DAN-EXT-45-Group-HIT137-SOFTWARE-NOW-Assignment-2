@@ -5,6 +5,17 @@
 - Sehan Hansaja Udayakantha Panik Mudiyanselage – S401456
 - Balatripurasundari Polineni – S401680 
 - Prabodha Sathsarani Aththanayake Aththanayake Boralage – S401279
+---
+
+# 🐍 Python Version Requirement
+
+This project requires **Python 3.9 or above**.
+
+This is because the implementation uses built-in generic type hints such as:
+
+def evaluate_file(input_path: str) -> list[dict]:
+
+The list[dict] syntax is only supported in Python 3.9 and later versions.
 
 ---
 

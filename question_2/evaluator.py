@@ -1,6 +1,12 @@
 """
 HIT137 Assignment 2 - Question 2
 Expression Evaluator
+
+Note:
+This program requires Python 3.9 or above.
+
+The code uses built-in generic type hints such as `list[dict]`,
+which are only supported in Python 3.9 and later versions.
 """
 
 '''
